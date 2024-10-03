@@ -9,6 +9,7 @@ interface Recruiter {
   company: string;
   photo: string;
   link: string;
+  rating: number; // Add rating property
   social: {
     facebook?: string;
     twitter?: string;
@@ -23,6 +24,7 @@ const recruiters: Recruiter[] = [
     company: "Tech Recruiters Inc.",
     photo: "/r3.jpg",
     link: "/recruiters/alice",
+    rating: 4.5,
     social: {
       facebook: "https://www.facebook.com/alicejohnson",
       twitter: "https://twitter.com/alicejohnson",
@@ -35,6 +37,7 @@ const recruiters: Recruiter[] = [
     company: "Innovative Recruiting",
     photo: "/r2.jpg",
     link: "/recruiters/bob",
+    rating: 4.0,
     social: {
       facebook: "https://www.facebook.com/bobsmith",
       twitter: "https://twitter.com/bobsmith",
@@ -47,6 +50,7 @@ const recruiters: Recruiter[] = [
     company: "Talent Seekers",
     photo: "/r1.jpg",
     link: "/recruiters/charlie",
+    rating: 5.0,
     social: {
       facebook: "https://www.facebook.com/charliebrown",
       twitter: "https://twitter.com/charliebrown",
@@ -89,6 +93,24 @@ const RecruitersSection = () => {
                       {recruiter.name}
                     </span>
                     <p className="text-gray-600">{recruiter.company}</p>
+                    {/* Rating Display */}
+                    <div className="flex items-center mt-1">
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <span
+                          key={index}
+                          className={`${
+                            index < Math.floor(recruiter.rating)
+                              ? "text-yellow-500"
+                              : "text-gray-300"
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                      <span className="ml-2 text-gray-600">
+                        {recruiter.rating.toFixed(1)}
+                      </span>
+                    </div>
                   </div>
                   <Image
                     src={recruiter.photo}
@@ -100,7 +122,7 @@ const RecruitersSection = () => {
                 </div>
               </Link>
               {/* Social media links */}
-              <div className="flex space-x-3 mt-4 justify-between">
+              <div className="flex space-x-3 mt-4">
                 {recruiter.social.facebook && (
                   <Link
                     href={recruiter.social.facebook}

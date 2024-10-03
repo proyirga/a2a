@@ -1,19 +1,25 @@
 import {
-  UserGroupIcon,
-  HomeIcon,
   DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
+  BriefcaseIcon,
+  AcademicCapIcon,
+  BuildingOfficeIcon,
+} from "@heroicons/react/24/outline";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
+  { name: "Jobs", href: "/jobs", icon: BriefcaseIcon },
   {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
+    name: "Companies",
+    href: "/companies",
+    icon: BuildingOfficeIcon,
+  },
+  {
+    name: "Applied Jobs",
+    href: "/jobs/applied",
     icon: DocumentDuplicateIcon,
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  { name: "Run Skill Gap Analyzer", href: "/skill-gap", icon: AcademicCapIcon },
 ];
 
 export default function NavLinks() {
