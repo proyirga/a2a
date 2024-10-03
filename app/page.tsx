@@ -14,6 +14,7 @@ import Logo from "@/app/ui/logo";
 import Link from "next/link";
 import { lusitana } from "./ui/fonts";
 import MobileNav from "@/components/MobileNav";
+import Companies from "@/components/Companies";
 
 export default function LandingPage() {
   const jobCategories = [
@@ -63,14 +64,12 @@ export default function LandingPage() {
             Find Talent
           </Link>
 
-          <div className="ml-auto flex items-center space-x-6">
-            <Link href="/register" className="hover:text-gray-200">
-              Register
-            </Link>
-            <Link href="/login" className="hover:text-gray-200">
-              Login
-            </Link>
-          </div>
+          <Link href="/register" className="hover:text-gray-200">
+            Register
+          </Link>
+          <Link href="/login" className="hover:text-gray-200">
+            Login
+          </Link>
         </nav>
         {/* Mobile Navigation */}
         <MobileNav />
@@ -128,6 +127,11 @@ export default function LandingPage() {
             ))}
           </ul>
         </div>
+      </div>
+      {/* Companies Section */}
+      <div className="mt-6">
+        <h2 className="text-2xl font-bold text-center">Companies Are Hiring</h2>
+        <Companies />
       </div>
     </main>
   );
