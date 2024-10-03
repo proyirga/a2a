@@ -15,6 +15,9 @@ import Link from "next/link";
 import { lusitana } from "./ui/fonts";
 import MobileNav from "@/components/MobileNav";
 import Companies from "@/components/Companies";
+import PopularJobs from "@/components/Jobs";
+import RecruitersSection from "@/components/Recruiter";
+import Footer from "@/components/Footer";
 
 export default function LandingPage() {
   const jobCategories = [
@@ -132,6 +135,15 @@ export default function LandingPage() {
       <div className="mt-6">
         <h2 className="text-2xl font-bold text-center">Companies Are Hiring</h2>
         <Companies />
+      </div>
+      <div>
+        <PopularJobs />
+      </div>
+      <div>
+        <RecruitersSection />
+      </div>
+      <div>
+        <Footer />
       </div>
     </main>
   );
