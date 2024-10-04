@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User schema with posts, education, experience, skills, and address
+model User {
+  id                String           @id @default(cuid())
+  email             String           @unique
+  phone             String?
+  name              String
+  password          String
+  type              UserTypes
+  passwordUpdatedAt DateTime
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  posts             Post[]
+  education         Education[]
+  experience        Experience[]
+  skills            Skill[]
+  address           Address          @relation(fields: [addressId], references: [id])
+  addressId         String
+  socialLinks       SocialLinks[]
+  jobsApplied       JobApplication[]
+}
+
+model SocialLinks {
+  id     String           @id @default(cuid())
+  name   socialMediaTypes
+  url    String
+  user   User             @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Address {
+  id      String @id @default(cuid())
+  street  String
+  city    String
+  state   String
+  zip     String
+  country String
+  user    User[]
+  userId  String
+
+  Company Company[]
+}
+
+model Education {
+  id        String          @id @default(cuid())
+  school    String
+  level     EducationLevels
+  degree    String
+  field     String
+  startYear Int
+  endYear   Int
+  user      User            @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Experience {
+  id          String @id @default(cuid())
+  company     String
+  position    String
+  startYear   Int
+  endYear     Int
+  description String
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Skill {
+  id     String @id @default(cuid())
+  name   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+}
+
+enum EducationLevels {
+  HIGH_SCHOOL
+  CERTIFICATE
+  ASSOCIATES
+  BACHELORS
+  MASTERS
+  DOCTORATE
+}
+
+enum UserTypes {
+  JOB_SEEKER
+  PROFESSIONAL_RECRUITER
+  USER
+}
+
+enum socialMediaTypes {
+  LINKEDIN
+  GITHUB
+  TWITTER
+  FACEBOOK
+  INSTAGRAM
+}
+
+//Company schema with jobs, and address
+
+model Company {
+  id        String  @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  website   String
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId String
+  jobs      Job[]
+}
+
+model Job {
+  id          String           @id @default(cuid())
+  title       String
+  description String
+  type        JobTypes
+  salary      Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deadline    DateTime
+  reposted    Boolean          @default(false)
+  repostedAt  DateTime?
+  company     Company          @relation(fields: [companyId], references: [id])
+  companyId   String
+  applicants  JobApplication[]
+  source      String?
+}
+
+model JobApplication {
+  id        String            @id @default(cuid())
+  user      User              @relation(fields: [userId], references: [id])
+  userId    String
+  job       Job               @relation(fields: [jobId], references: [id])
+  jobId     String
+  status    ApplicationStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+enum JobTypes {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  TEMPORARY
+  INTERNSHIP
+}
+
+enum ApplicationStatus {
+  APPLIED
+  REJECTED
+  HIRED
+}
