@@ -5,6 +5,7 @@ import {
   BriefcaseIcon,
   AcademicCapIcon,
   BuildingOfficeIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -12,6 +13,7 @@ import clsx from "clsx";
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
+  { name: "Home", href: "/job-seeker", icon: HomeIcon },
   { name: "Jobs", href: "/job-seeker/jobs", icon: BriefcaseIcon },
   {
     name: "Companies",
