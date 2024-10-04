@@ -60,10 +60,10 @@ export default function LandingPage() {
         </div>
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-white text-lg">
-          <Link href="/jobs" className="hover:text-gray-200">
+          <Link href="/job-seeker/jobs" className="hover:text-gray-200">
             Find Job
           </Link>
-          <Link href="/talents" className="hover:text-gray-200">
+          <Link href="/recruter" className="hover:text-gray-200">
             Find Talent
           </Link>
 
