@@ -1,5 +1,4 @@
 import ExternalJobsLinks from "@/app/ui/job-seeker/external-jobs";
-import { Card } from "@/app/ui/job-seeker/job-list";
 import React from "react";
 
 const JobsPage = () => {
@@ -9,12 +8,7 @@ const JobsPage = () => {
       <div className="w-full lg:w-2/3 flex flex-col gap-8">
         JOBS LISTING HERE
         <div className="flex gap-4 justify-between flex-wrap">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          JOB LIST CARDS
         </div>
       </div>
       {/* RIGHT CONTENT */}
