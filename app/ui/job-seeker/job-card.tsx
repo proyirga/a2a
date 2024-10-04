@@ -60,7 +60,7 @@ export function Card({
 
   return (
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
-      <Link href={`/jobs?category=${category}`}>
+      <Link href={`/job-seeker/jobs?category=${category}`}>
         <div className="flex p-4">
           {Icon ? <Icon className="h-8 w-8 text-gray-700" /> : null}
           <h3 className="ml-2 text-xl font-medium">

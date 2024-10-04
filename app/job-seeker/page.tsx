@@ -1,13 +1,14 @@
 import { Card } from "@/app/ui/job-seeker/job-card";
 import JobList from "@/app/ui/job-seeker/job-list";
 import { lusitana } from "@/app/ui/fonts";
+import Navbar from "../ui/job-seeker/navbar";
 
 export default async function Page() {
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
-      </h1>
+      <div className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        <Navbar />
+      </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card
           title="Software Development"

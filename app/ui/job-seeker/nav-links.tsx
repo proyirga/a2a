@@ -6,6 +6,8 @@ import {
   AcademicCapIcon,
   BuildingOfficeIcon,
   HomeIcon,
+  ClipboardDocumentCheckIcon,
+  ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -23,12 +25,12 @@ const links = [
   {
     name: "Applied Jobs",
     href: "/job-seeker/jobs/applied",
-    icon: DocumentDuplicateIcon,
+    icon: ClipboardDocumentCheckIcon,
   },
   {
     name: "Saved Jobs",
     href: "/job-seeker/jobs/saved",
-    icon: DocumentDuplicateIcon,
+    icon: ClipboardDocumentIcon,
   },
   { name: "Run Skill Gap Analyzer", href: "/skill-gap", icon: AcademicCapIcon },
 ];
