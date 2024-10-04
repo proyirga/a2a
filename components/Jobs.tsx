@@ -103,7 +103,7 @@ export default async function FeaturedJobs() {
         {/* More button */}
         <div className="mt-6 text-center">
           <Link
-            href="/jobs" // Link to all job listings
+            href="/job-seeker/jobs" // Link to all job listings
             className="inline-block rounded-lg bg-blue-500 px-4 py-2 text-white font-medium transition-colors hover:bg-blue-400"
           >
             List All Jobs
