@@ -336,6 +336,14 @@ async function main() {
     },
   });
 
+  const SavedJobs = await prisma.savedJob.createMany({
+    data: [
+      { userId: user1.id, jobId: job1.id },
+      { userId: user1.id, jobId: job2.id },
+      { userId: user2.id, jobId: job3.id },
+    ],
+  });
+
   // Create Job Applications
   await prisma.jobApplication.createMany({
     data: [

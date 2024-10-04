@@ -2,6 +2,7 @@ import { Card } from "@/app/ui/job-seeker/job-card";
 import JobList from "@/app/ui/job-seeker/job-list";
 import { lusitana } from "@/app/ui/fonts";
 import Navbar from "../ui/job-seeker/navbar";
+import CompaniesList from "../ui/job-seeker/company-list";
 
 export default async function Page() {
   return (
@@ -21,7 +22,7 @@ export default async function Page() {
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <JobList />
-        {/* <LatestInvoices latestInvoices={latestInvoices} /> */}
+        <CompaniesList />
       </div>
     </main>
   );

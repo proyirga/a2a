@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 // Example external job links data (you can replace this with API data)
@@ -37,8 +38,10 @@ const ExternalJobsLinks = () => {
   return (
     <div className="bg-white p-4 rounded-md">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold my-4">Remote Job Opportunities</h1>
-        <Image src="/filter.svg" alt="" width={20} height={20} />
+        <h1 className="text-xl font-semibold my-4">
+          Check out Jobs by other platforms
+        </h1>
+        <ArrowRightIcon className="h-5 w-5 text-gray-500 cursor-pointer" />
       </div>
       <div className="flex flex-col gap-4">
         {externalJobs.map((job) => (
@@ -52,10 +55,10 @@ const ExternalJobsLinks = () => {
             <div className="flex items-center justify-between">
               <h1 className="font-semibold text-gray-600">{job.title}</h1>
               <Image
-                src="/arrow-right.svg"
+                src="/upwork.png"
                 alt="Go to job"
-                width={20}
-                height={20}
+                width={32}
+                height={32}
                 className="cursor-pointer"
               />
             </div>
