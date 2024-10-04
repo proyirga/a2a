@@ -28,6 +28,28 @@ async function main() {
     },
   });
 
+  const education1 = await prisma.education.create({
+    data: {
+      school: "MIT",
+      level: "BACHELORS",
+      degree: "Computer Science",
+      field: "Software Engineering",
+      startYear: 2010,
+      endYear: 2014,
+    },
+  });
+
+  const education2 = await prisma.education.create({
+    data: {
+      school: "Stanford University",
+      level: "MASTERS",
+      degree: "Human Resource Management",
+      field: "HR",
+      startYear: 2010,
+      endYear: 2012,
+    },
+  });
+
   // Create Users
   const user1 = await prisma.user.create({
     data: {
@@ -86,7 +108,7 @@ async function main() {
 
   const user2 = await prisma.user.create({
     data: {
-      email: "janedoe@example.com",
+      email: "janedoe@example.com", // Use a different email
       phone: "0987654321",
       name: "Jane Doe",
       password: hashedPassword,
@@ -134,6 +156,17 @@ async function main() {
     },
   });
 
+  //get user data for usage
+
+  const user = await prisma.user.findMany({
+    include: {
+      profile: true,
+      education: true,
+      experience: true,
+      skills: true,
+      socialLinks: true,
+    },
+  });
   // Create Companies
   const company1 = await prisma.company.create({
     data: {
@@ -157,6 +190,33 @@ async function main() {
     },
   });
 
+  const createdSkills = await prisma.skill.createMany({
+    data: [
+      { name: "JavaScript" },
+      { name: "TypeScript" },
+      { name: "React" },
+      { name: "Recruitment" },
+      { name: "Talent Acquisition" },
+    ],
+    skipDuplicates: true, // This will avoid any duplicate skill creation
+  });
+
+  // Now fetch the skill IDs
+  const skills = await prisma.skill.findMany({
+    where: {
+      name: {
+        in: [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Recruitment",
+          "Talent Acquisition",
+        ],
+      },
+    },
+    select: { id: true, name: true },
+  });
+
   // Create Jobs
   const job1 = await prisma.job.create({
     data: {
@@ -167,6 +227,23 @@ async function main() {
       deadline: new Date("2024-12-31"),
       reposted: false,
       companyId: company1.id,
+      jobCategory: "SOFTWARE_ENGINEERING",
+      featured: true,
+      requirements: {
+        create: {
+          experience: "5+ years",
+          education: {
+            connect: { id: education1.id },
+          },
+          skills: {
+            connect: skills
+              .filter((skill) =>
+                ["JavaScript", "TypeScript", "React"].includes(skill.name)
+              )
+              .map((skill) => ({ id: skill.id })),
+          },
+        },
+      },
     },
   });
 
@@ -179,6 +256,23 @@ async function main() {
       deadline: new Date("2024-11-30"),
       reposted: false,
       companyId: company1.id,
+      jobCategory: "SOFTWARE_ENGINEERING",
+      featured: true,
+      requirements: {
+        create: {
+          experience: "3+ years",
+          education: {
+            connect: { id: education1.id },
+          },
+          skills: {
+            connect: skills
+              .filter((skill) =>
+                ["JavaScript", "TypeScript", "React"].includes(skill.name)
+              )
+              .map((skill) => ({ id: skill.id })),
+          },
+        },
+      },
     },
   });
 
@@ -192,6 +286,53 @@ async function main() {
       reposted: true,
       repostedAt: new Date("2024-09-15"),
       companyId: company2.id,
+      jobCategory: "HR",
+      featured: true,
+      requirements: {
+        create: {
+          experience: "5+ years",
+          education: {
+            connect: { id: education2.id },
+          },
+          skills: {
+            connect: skills
+              .filter((skill) =>
+                ["JavaScript", "TypeScript", "React"].includes(skill.name)
+              )
+              .map((skill) => ({ id: skill.id })),
+          },
+        },
+      },
+    },
+  });
+
+  const job4 = await prisma.job.create({
+    data: {
+      title: "HR Assistant - Payroll",
+      description: "We need a skilled HR Assistant to join our growing team.",
+      type: "FULL_TIME",
+      salary: 90000,
+      deadline: new Date("2024-10-31"),
+      reposted: true,
+      repostedAt: new Date("2024-09-15"),
+      companyId: company2.id,
+      jobCategory: "HR",
+      featured: false,
+      requirements: {
+        create: {
+          experience: "5+ years",
+          education: {
+            connect: { id: education2.id },
+          },
+          skills: {
+            connect: skills
+              .filter((skill) =>
+                ["JavaScript", "TypeScript", "React"].includes(skill.name)
+              )
+              .map((skill) => ({ id: skill.id })),
+          },
+        },
+      },
     },
   });
 

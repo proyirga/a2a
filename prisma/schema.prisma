@@ -73,8 +73,10 @@ model Education {
   field     String
   startYear Int
   endYear   Int
-  user      User            @relation(fields: [userId], references: [id])
-  userId    String
+  user      User?           @relation(fields: [userId], references: [id])
+  userId    String?
+
+  Requirements Requirements[]
 }
 
 model Experience {
@@ -89,10 +91,12 @@ model Experience {
 }
 
 model Skill {
-  id     String @id @default(cuid())
+  id     String  @id @default(cuid())
   name   String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  Requirements Requirements[]
 }
 
 model Post {
@@ -145,20 +149,32 @@ model Company {
 }
 
 model Job {
-  id          String           @id @default(cuid())
-  title       String
-  description String
-  type        JobTypes
-  salary      Int
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  deadline    DateTime
-  reposted    Boolean          @default(false)
-  repostedAt  DateTime?
-  company     Company          @relation(fields: [companyId], references: [id])
-  companyId   String
-  applicants  JobApplication[]
-  source      String?
+  id           String           @id @default(cuid())
+  title        String
+  description  String
+  type         JobTypes
+  jobCategory  Category
+  salary       Int
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  deadline     DateTime
+  reposted     Boolean          @default(false)
+  repostedAt   DateTime?
+  company      Company          @relation(fields: [companyId], references: [id])
+  companyId    String
+  applicants   JobApplication[]
+  requirements Requirements[]
+  source       String?
+  featured     Boolean          @default(false)
+}
+
+model Requirements {
+  id         String      @id @default(cuid())
+  job        Job         @relation(fields: [jobId], references: [id])
+  jobId      String
+  skills     Skill[]
+  education  Education[]
+  experience String
 }
 
 model JobApplication {
@@ -184,4 +200,17 @@ enum ApplicationStatus {
   APPLIED
   REJECTED
   HIRED
+}
+
+enum Category {
+  SOFTWARE_ENGINEERING
+  PRODUCT_MANAGEMENT
+  DESIGN
+  MARKETING
+  SALES
+  CUSTOMER_SUPPORT
+  FINANCE
+  HR
+  OPERATIONS
+  OTHER
 }
