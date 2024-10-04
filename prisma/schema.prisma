@@ -61,7 +61,6 @@ model Address {
   zip     String
   country String
   user    User[]
-  userId  String
 
   Company Company[]
 }
