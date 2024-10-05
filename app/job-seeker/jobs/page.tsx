@@ -4,8 +4,18 @@ import { BriefcaseIcon, BuildingOfficeIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
+import Pagination from "@/app/ui/jobs/pagination";
 
-export default async function JobsList() {
+export default async function JobsList({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
   const jobs = await prisma.job.findMany({
     include: {
       company: true,
@@ -82,7 +92,10 @@ export default async function JobsList() {
                     ? job.description.slice(0, 100) + "... "
                     : job.description}
                   {job.description.length > 100 && (
-                    <Link href={`/jobs/${job.id}`} className="text-blue-500">
+                    <Link
+                      href={`/job-seeker/jobs/${job.id}`}
+                      className="text-blue-500"
+                    >
                       See more
                     </Link>
                   )}

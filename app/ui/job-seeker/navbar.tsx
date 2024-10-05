@@ -10,7 +10,7 @@ const loggedInUser = "Yirga Mulaw";
 const Navbar = () => {
   return (
     <div className="flex items-center justify-between ">
-      {/* SEARCH INPUT */}
+      {/* SEARCH INPUT 
       <div className="hidden md:block relative w-full max-w-xs md:max-w-sm">
         <input
           type="text"
@@ -18,7 +18,7 @@ const Navbar = () => {
           className="w-full pl-10 pr-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
-      </div>
+      </div>*/}
       {/* PROFILE */}
       <div className="flex items-center gap-6 justify-end w-full">
         <div className="bg-white rounded-full w-7 h-7 flex items-center justify-center cursor-pointer relative">

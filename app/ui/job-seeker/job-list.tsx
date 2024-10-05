@@ -4,27 +4,79 @@ import Link from "next/link";
 import prisma from "@/app/lib/db";
 import Image from "next/image";
 import { format } from "date-fns";
+import Pagination from "../jobs/pagination";
 
-export default async function JobList() {
+import { ITEMS_PER_PAGE } from "@/app/lib/utils";
+
+export default async function JobList({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  // Count total number of jobs for pagination
+  const totalJobs = await prisma.job.count({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          company: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
+  });
+
   const jobs = await prisma.job.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          company: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
     include: {
       company: true,
       requirements: {
         include: {
           skills: true,
-          education: true,
         },
       },
     },
+    skip: (currentPage - 1) * ITEMS_PER_PAGE,
+    take: ITEMS_PER_PAGE,
   });
+
+  const totalPages = Math.ceil(totalJobs / ITEMS_PER_PAGE); // Calculate total pages
 
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Jobs</h2>
-      {/* NOTE: Uncomment this code in Chapter 7 */}
 
+      {/* Job List */}
       <div className="rounded-xl bg-gray-50 p-4">
-        <div className=" mt-0 grid grid-cols-1 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
+        <div className="mt-0 grid grid-cols-1 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
           {jobs.length > 0 ? (
             jobs.map((job) => (
               <div
@@ -34,7 +86,6 @@ export default async function JobList() {
                 <Link href={`/jobs/${job.id}`} className="flex flex-col">
                   <div className="flex justify-between flex-wrap">
                     <span className="text-lg font-semibold">{job.title}</span>
-                    {/* Job Dates and Deadline */}
                     <div className="text-gray-600 text-xs mt-2 flex gap-1">
                       <CalendarIcon className="h-5 w-5 text-gray-500 mt-2" />
                       <div>
@@ -51,7 +102,6 @@ export default async function JobList() {
                   </div>
                 </Link>
 
-                {/* Company Logo */}
                 <div className="flex items-center gap-2 mt-2">
                   <Image
                     src={job.company.logo || "/company-placeholder.png"}
@@ -81,7 +131,7 @@ export default async function JobList() {
                   </div>
                 ))}
 
-                {/* Job Description with See More feature */}
+                {/* Job Description */}
                 <p className="text-sm text-gray-500 mt-2">
                   {job.description.length > 100
                     ? job.description.slice(0, 100) + "... "
@@ -93,7 +143,6 @@ export default async function JobList() {
                   )}
                 </p>
 
-                {/* Save and Apply buttons */}
                 <div className="flex justify-between mt-4">
                   <button className="bg-blue-500 text-white text-sm px-4 py-2 rounded hover:bg-blue-600">
                     Save
@@ -105,11 +154,14 @@ export default async function JobList() {
               </div>
             ))
           ) : (
-            <p className="text-center col-span-3">
-              No featured jobs available.
-            </p>
+            <p className="text-center col-span-3">No jobs found.</p>
           )}
         </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-5 flex w-full justify-center">
+        {/*<Pagination totalPages={totalPages} />*/}
       </div>
     </div>
   );

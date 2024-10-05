@@ -43,9 +43,13 @@ export function Card({
   title,
   count,
   category,
+  query,
+  currentPage,
 }: {
   title: string;
   count: number | string;
+  query?: string;
+  currentPage?: number;
   category:
     | "Software Development"
     | "Design & UX"

@@ -2,6 +2,7 @@
 
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import Pagination from "../jobs/pagination";
 
 // Example external job links data (you can replace this with API data)
 const externalJobs = [

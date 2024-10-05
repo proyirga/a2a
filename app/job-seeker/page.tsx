@@ -3,13 +3,26 @@ import JobList from "@/app/ui/job-seeker/job-list";
 import { lusitana } from "@/app/ui/fonts";
 import Navbar from "../ui/job-seeker/navbar";
 import CompaniesList from "../ui/job-seeker/company-list";
+import Search from "../ui/search";
+import { CreateJob } from "../ui/jobs/buttons";
+import { Suspense } from "react";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
   return (
     <main>
       <div className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         <Navbar />
       </div>
+
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card
           title="Software Development"
@@ -20,8 +33,14 @@ export default async function Page() {
         <Card title="Marketing" count={5} category="Marketing" />
         <Card title="Sales" count={2} category="Sales" />
       </div>
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search jobs..." />
+        <CreateJob />
+      </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <JobList />
+        <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
+          <JobList query={query} currentPage={currentPage} />
+        </Suspense>
         <CompaniesList />
       </div>
     </main>
