@@ -9,7 +9,7 @@ const loggedInUser = "Yirga Mulaw";
 
 const Navbar = () => {
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex items-center justify-between mt-4">
       {/* SEARCH INPUT 
       <div className="hidden md:block relative w-full max-w-xs md:max-w-sm">
         <input

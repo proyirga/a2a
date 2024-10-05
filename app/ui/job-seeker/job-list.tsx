@@ -4,7 +4,6 @@ import Link from "next/link";
 import prisma from "@/app/lib/db";
 import Image from "next/image";
 import { format } from "date-fns";
-import Pagination from "../jobs/pagination";
 
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 
@@ -15,28 +14,6 @@ export default async function JobList({
   query: string;
   currentPage: number;
 }) {
-  // Count total number of jobs for pagination
-  const totalJobs = await prisma.job.count({
-    where: {
-      OR: [
-        {
-          title: {
-            contains: query,
-            mode: "insensitive",
-          },
-        },
-        {
-          company: {
-            name: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-        },
-      ],
-    },
-  });
-
   const jobs = await prisma.job.findMany({
     where: {
       OR: [
@@ -68,19 +45,17 @@ export default async function JobList({
     take: ITEMS_PER_PAGE,
   });
 
-  const totalPages = Math.ceil(totalJobs / ITEMS_PER_PAGE); // Calculate total pages
-
   return (
-    <div className="w-full md:col-span-4">
+    <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Jobs</h2>
 
       {/* Job List */}
       <div className="rounded-xl bg-gray-50 p-4">
         <div className="mt-0 grid grid-cols-1 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
           {jobs.length > 0 ? (
-            jobs.map((job) => (
+            jobs.map((job, i) => (
               <div
-                key={job.id}
+                key={`job.id-${i}`}
                 className="flex flex-col p-4 bg-white rounded-lg shadow hover:shadow-lg transition-all"
               >
                 <Link href={`/jobs/${job.id}`} className="flex flex-col">
@@ -118,11 +93,14 @@ export default async function JobList({
                 </div>
 
                 {/* Skills listed horizontally */}
-                {job.requirements?.map((requirement, index) => (
-                  <div key={index} className="flex flex-wrap mt-4">
-                    {requirement.skills?.map((skill) => (
+                {job.requirements.map((requirement, reqIndex) => (
+                  <div
+                    key={`requirement-${job.id}-${reqIndex}`}
+                    className="flex flex-wrap mt-4"
+                  >
+                    {requirement.skills.map((skill, i) => (
                       <span
-                        key={skill.id}
+                        key={`skill-${job.id}-${reqIndex}-${i}`}
                         className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 mb-1 rounded-full px-2.5 py-0.5"
                       >
                         {skill.name}
@@ -157,11 +135,6 @@ export default async function JobList({
             <p className="text-center col-span-3">No jobs found.</p>
           )}
         </div>
-      </div>
-
-      {/* Pagination */}
-      <div className="mt-5 flex w-full justify-center">
-        {/*<Pagination totalPages={totalPages} />*/}
       </div>
     </div>
   );

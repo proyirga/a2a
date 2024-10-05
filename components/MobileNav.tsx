@@ -48,7 +48,7 @@ export default function MobileNav() {
 
         <nav className="flex flex-col items-center space-y-4 p-4 text-white">
           <Link
-            href="/jobs"
+            href="/job-seeker/jobs"
             onClick={closeMobileNav}
             className="hover:text-gray-200"
           >
@@ -75,16 +75,6 @@ export default function MobileNav() {
           >
             Login
           </Link>
-
-          {/* Mobile Search Input */}
-          <div className="relative w-full max-w-xs mt-4">
-            <input
-              type="text"
-              placeholder="Search jobs..."
-              className="w-full pl-10 pr-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
-          </div>
         </nav>
       </div>
     </div>

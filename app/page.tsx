@@ -18,6 +18,7 @@ import Companies from "@/components/Companies";
 import PopularJobs from "@/components/Jobs";
 import RecruitersSection from "@/components/Recruiter";
 import Footer from "@/components/Footer";
+import Search from "./ui/search";
 
 export default function LandingPage() {
   const jobCategories = [
@@ -58,8 +59,10 @@ export default function LandingPage() {
         <div className="flex items-center">
           <Logo />
         </div>
+        {/* Search Input (Visible on Desktop) */}
+        <Search placeholder="Search jobs" />
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6 text-white text-lg">
+        <nav className="hidden md:flex items-center space-x-6 text-white text-lg ml-4">
           <Link href="/job-seeker/jobs" className="hover:text-gray-200">
             Find Job
           </Link>
@@ -76,15 +79,6 @@ export default function LandingPage() {
         </nav>
         {/* Mobile Navigation */}
         <MobileNav />
-        {/* Search Input (Visible on Desktop) */}
-        <div className="hidden md:block relative w-full max-w-xs md:max-w-sm">
-          <input
-            type="text"
-            placeholder="Search jobs..."
-            className="w-full pl-10 pr-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-          />
-          <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
-        </div>
       </header>
 
       {/* Hero Section */}
@@ -120,7 +114,10 @@ export default function LandingPage() {
             {jobCategories.map((category, index) => (
               <li key={index} className="w-full">
                 <Link href={category.link}>
-                  <div className="flex items-center p-4 bg-gray-100 rounded-lg hover:bg-blue-100 transition-all">
+                  <div
+                    key={category.link}
+                    className="flex items-center p-4 bg-gray-100 rounded-lg hover:bg-blue-100 transition-all"
+                  >
                     <category.icon className="w-6 h-6 text-blue-600" />
                     <span className="text-lg text-gray-700 ml-3">
                       {category.name}

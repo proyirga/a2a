@@ -8,7 +8,6 @@ import {
   ClipboardDocumentCheckIcon,
   CurrencyDollarIcon,
 } from "@heroicons/react/24/outline";
-import { lusitana } from "@/app/ui/fonts";
 import Link from "next/link";
 
 const iconMap = {
@@ -43,8 +42,6 @@ export function Card({
   title,
   count,
   category,
-  query,
-  currentPage,
 }: {
   title: string;
   count: number | string;

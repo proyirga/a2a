@@ -1,3 +1,5 @@
+"use server";
+
 import { sql } from "@vercel/postgres";
 import {
   CustomerField,
@@ -10,22 +12,46 @@ import {
 import { formatCurrency } from "./utils";
 import prisma from "./db";
 
-export async function fetchRevenue() {
+export async function fetchCompanies(query: string) {
   try {
-    // Artificially delay a response for demo purposes.
-    // Don't do this in production :)
+    const companies = await prisma.company.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            email: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+    });
 
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-    // console.log('Data fetch completed after 3 seconds.');
-
-    return data.rows;
+    return companies;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
+    throw new Error("Failed to fetch companies.");
+  }
+}
+
+export async function companyJobs(companyId: string) {
+  try {
+    const jobs = await prisma.job.findMany({
+      where: {
+        companyId,
+      },
+    });
+    const numberOfJobs = jobs.length;
+    return numberOfJobs;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch company jobs.");
   }
 }
 
