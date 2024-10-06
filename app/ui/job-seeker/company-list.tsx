@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import {
   ArrowPathIcon,
   BuildingOfficeIcon,
+  ChatBubbleOvalLeftIcon,
   ClipboardDocumentIcon,
+  EnvelopeIcon,
+  GlobeAltIcon,
+  PhoneIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Image from "next/image";
 import { lusitana } from "@/app/ui/fonts";
-import ExternalJobsLinks from "./external-jobs";
 import Link from "next/link";
 
 export default function CompaniesList({
@@ -47,7 +50,7 @@ export default function CompaniesList({
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Companies Hiring...
+        Companies You might be interested...
       </h2>
       <div className="flex grow flex-col rounded-xl bg-gray-50 p-4">
         <div className="bg-white px-6">
@@ -83,7 +86,7 @@ export default function CompaniesList({
                       target="_blank"
                       className="text-sm text-gray-500 truncate"
                     >
-                      {company.website}
+                      <GlobeAltIcon className="w-5 h-5 text-blue-500" />
                     </Link>
                   </div>
                 </div>
@@ -91,7 +94,7 @@ export default function CompaniesList({
                 <div>
                   <div className="flex items-center space-x-2">
                     <p className="truncate hidden text-sm text-gray-500 sm:block">
-                      {company.email}
+                      <EnvelopeIcon className="w-5 h-5" />
                     </p>
                     <button
                       onClick={() => handleCopy(company.email, "email")}
@@ -106,7 +109,7 @@ export default function CompaniesList({
                   </div>
 
                   <div className="flex items-center space-x-2 mt-2">
-                    <span>{company.phone}</span>
+                    <PhoneIcon className="w-5 h-5 text-gray-500" />
                     <button
                       onClick={() => handleCopy(company.phone, "phone")}
                       className="text-blue-500 text-sm"

@@ -34,3 +34,25 @@ export function DeleteJobSeeker({ id }: { id: string }) {
     </>
   );
 }
+
+export function UpdateJob({ id }: { id: string }) {
+  return (
+    <Link
+      href="/Job-seeker/jobs/[slug]/edit"
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <PencilIcon className="w-5" />
+    </Link>
+  );
+}
+
+export function DeleteJob({ id }: { id: string }) {
+  return (
+    <>
+      <button className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
+    </>
+  );
+}

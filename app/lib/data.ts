@@ -12,6 +12,88 @@ import {
 import { formatCurrency } from "./utils";
 import prisma from "./db";
 
+export async function fetchApplicantJobs(applicantId: string) {
+  try {
+    const jobs = await prisma.job.findMany({
+      where: {
+        applicants: {
+          some: {
+            id: applicantId,
+          },
+        },
+      },
+      include: {
+        company: true,
+      },
+    });
+
+    return jobs;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch applicant jobs.");
+  }
+}
+
+export async function fetchAppliedJobs(applicantId: string) {
+  try {
+    const jobs = await prisma.jobApplication.findMany({
+      where: {
+        userId: applicantId,
+      },
+      include: {
+        job: {
+          include: {
+            company: true,
+          },
+        },
+      },
+    });
+
+    return jobs;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch applied jobs.");
+  }
+}
+
+export async function fetchJobById(jobId: string) {
+  try {
+    const job = await prisma.job.findUnique({
+      where: {
+        id: jobId,
+      },
+      include: {
+        company: true,
+        requirements: {
+          include: {
+            skills: true,
+          },
+        },
+      },
+    });
+
+    return job;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch job.");
+  }
+}
+
+export async function fetchCompanyById(companyId: string) {
+  try {
+    const company = await prisma.company.findUnique({
+      where: {
+        id: companyId,
+      },
+    });
+
+    return company;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch company.");
+  }
+}
+
 export async function fetchCompanies(query: string) {
   try {
     const companies = await prisma.company.findMany({

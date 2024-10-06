@@ -1,13 +1,12 @@
 import { Card } from "@/app/ui/job-seeker/job-card";
 import JobList from "@/app/ui/job-seeker/job-list";
-import { lusitana } from "@/app/ui/fonts";
-import Navbar from "../ui/job-seeker/navbar";
 import CompaniesList from "../ui/job-seeker/company-list";
 import Search from "../ui/search";
 import { CreateJob } from "../ui/jobs/buttons";
 import { Suspense } from "react";
 import { fetchJobsPages } from "../lib/data";
 import Pagination from "../ui/jobs/pagination";
+import ExternalJobsLinks from "../ui/job-seeker/external-jobs";
 
 export default async function Page({
   searchParams,
@@ -57,7 +56,10 @@ export default async function Page({
         </div>
         {/* RIGHT SECTION COMPANIES LIST */}
         <div className="w-full lg:w-1/3 flex flex-col gap-8">
-          <CompaniesList />
+          <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
+            <CompaniesList query={query} currentPage={currentPage} />
+            <ExternalJobsLinks />
+          </Suspense>
         </div>
       </div>
     </div>
